@@ -1,0 +1,9 @@
+[Unit]
+Description=MongoDB Exporter
+
+[Service]
+EnvironmentFile=/etc/default/mongodb_exporter
+ExecStart=/usr/bin/mongodb_exporter $OPTIONS
+
+[Install]
+WantedBy=multi-user.target
