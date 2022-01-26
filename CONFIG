@@ -1,4 +1,4 @@
-VERSION=0.11.0
+VERSION=0.30.0
 DEB_VERSION=1
 PACKAGE_NAME=mongodb-exporter
 PROGRAM_NAME=mongodb_exporter
