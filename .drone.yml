@@ -11,12 +11,12 @@ clone:
 
 steps:
   - name: package for focal
-    image: ubuntu:20.04
+    image: ubuntu:22.04
     commands:
       - export DEBIAN_FRONTEND=noninteractive
       - export CODENAME=focal
       - apt-get update
-      - apt-get install -y gnupg
+      - apt-get install -y gnupg wget lsb-release
       - echo "$DEBIAN_REPO_GPG_KEY" | gpg --import
       - mkdir ~/.aws
       - echo "[default]" >> ~/.aws/credentials
@@ -24,7 +24,10 @@ steps:
       - echo "aws_secret_access_key = $DEBIAN_S3_SECRET_KEY" >> ~/.aws/credentials
       - apt-get install -y wget ruby ruby-dev build-essential
       - gem install fpm
-      - gem install deb-s3
+      - wget -O /etc/apt/trusted.gpg.d/deb-s3-archive-keyring.gpg https://raw.githubusercontent.com/deb-s3/deb-s3/master/deb-s3-archive-keyring.gpg
+      - echo "deb http://deb-s3-repo.s3.us-east-2.amazonaws.com/$(lsb_release -is | tr A-Z a-z)/ $(lsb_release -cs) main" | tee -a /etc/apt/sources.list > /dev/null
+      - apt-get update
+      - apt-get install -y deb-s3
       - ./builder
       - ls
       - rm -f *.deb
@@ -40,12 +43,12 @@ steps:
         - push
 
   - name: package for jammy
-    image: ubuntu:20.04
+    image: ubuntu:22.04
     commands:
       - export DEBIAN_FRONTEND=noninteractive
       - export CODENAME=jammy
       - apt-get update
-      - apt-get install -y gnupg
+      - apt-get install -y gnupg wget lsb-release
       - echo "$DEBIAN_REPO_GPG_KEY" | gpg --import
       - mkdir ~/.aws
       - echo "[default]" >> ~/.aws/credentials
@@ -53,7 +56,10 @@ steps:
       - echo "aws_secret_access_key = $DEBIAN_S3_SECRET_KEY" >> ~/.aws/credentials
       - apt-get install -y wget ruby ruby-dev build-essential
       - gem install fpm
-      - gem install deb-s3
+      - wget -O /etc/apt/trusted.gpg.d/deb-s3-archive-keyring.gpg https://raw.githubusercontent.com/deb-s3/deb-s3/master/deb-s3-archive-keyring.gpg
+      - echo "deb http://deb-s3-repo.s3.us-east-2.amazonaws.com/$(lsb_release -is | tr A-Z a-z)/ $(lsb_release -cs) main" | tee -a /etc/apt/sources.list > /dev/null
+      - apt-get update
+      - apt-get install -y deb-s3
       - ./builder
       - ls
       - rm -f *.deb
