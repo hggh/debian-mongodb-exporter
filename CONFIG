@@ -1,5 +1,5 @@
-VERSION=0.30.0
-DEB_VERSION=1
+VERSION=2.37.0
+DEB_VERSION=2
 PACKAGE_NAME=mongodb-exporter
 PROGRAM_NAME=mongodb_exporter
 UPSTREAM_NAME=mongodb_exporter
